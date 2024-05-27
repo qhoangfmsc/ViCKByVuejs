@@ -1,10 +1,16 @@
 <template>
+  <Teleport to="body">
+    <chat-component v-if="authen.state" />
+  </Teleport>
   <v-toolbar
     :elevation="8"
     style="border-bottom: 2px solid var(--vick-primary)"
   >
     <div class="w-100 mx-10 d-flex justify-space-between">
-      <RouterLink to="/" class="bg-transparent align-content-center">
+      <RouterLink
+        :to="{ name: 'home-route' }"
+        class="bg-transparent align-content-center"
+      >
         <v-img
           :width="100"
           aspect-ratio="16/9"
@@ -26,12 +32,12 @@
           <div class="align-content-center text-body-2">
             <RouterLink
               class="text-grey-darken-2 text-decoration-none mx-2"
-              to="/trang-gioi-thieu"
+              :to="{ name: 'landing-route' }"
               >Về chúng tôi</RouterLink
             >
             <RouterLink
               class="text-grey-darken-2 text-decoration-none mx-2"
-              to="/trang-gioi-thieu"
+              :to="{ name: 'home-route' }"
               >Cố vấn đầu tư</RouterLink
             >
           </div>
@@ -62,6 +68,7 @@
 
 <script>
 import MyProfileComponent from "@/components/MyProfileComponent.vue";
+import ChatComponent from "@/components/ChatComponent.vue";
 import NotificationComponent from "@/components/NotificationComponent.vue";
 import DialogComponent from "@/components/LoginDialogComponent.vue";
 
@@ -70,6 +77,7 @@ export default {
     MyProfileComponent,
     NotificationComponent,
     DialogComponent,
+    ChatComponent,
   },
   data() {
     return {

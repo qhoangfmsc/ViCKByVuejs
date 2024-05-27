@@ -28,26 +28,28 @@
       </v-tabs>
       <v-tabs-window v-model="tab">
         <v-tabs-window-item value="tab-login">
-          <v-card v-if="loginStep == 1" flat>
+          <v-card v-if="loginForm.loginStep == 1" flat>
             <v-sheet class="mx-auto px-6" width="100%">
               <form @submit.prevent="loginSubmit">
                 <v-text-field
-                  v-model="loginPhoneNumber"
+                  v-model="loginForm.loginPhoneNumber"
                   :rules="[rules.required]"
                   clearable
                   label="Số điện thoại"
                 ></v-text-field>
 
                 <v-text-field
-                  v-model="loginPassword"
+                  v-model="loginForm.loginPassword"
                   :append-inner-icon="
-                    isShowPassword ? 'mdi-eye' : 'mdi-eye-off'
+                    loginForm.isShowPassword ? 'mdi-eye' : 'mdi-eye-off'
                   "
                   :rules="[rules.required]"
                   :type="isShowPassword ? 'text' : 'password'"
                   label="Mật khẩu"
                   clearable
-                  @click:append-inner="isShowPassword = !isShowPassword"
+                  @click:append-inner="
+                    loginForm.isShowPassword = !loginForm.isShowPassword
+                  "
                 ></v-text-field>
 
                 <div class="text-center mb-4 mt-2">
@@ -63,16 +65,18 @@
               </form>
             </v-sheet>
           </v-card>
-          <v-card v-if="loginStep == 2" flat>
+          <v-card v-if="loginForm.loginStep == 2" flat>
             <div
               class="py-1 px-6 text-center mx-auto ma-4"
               max-width="400"
               width="100%"
             >
-              <h3 class="text-h6 my-0">
+              <h3 class="text-h6 mt-0 mb-4">
                 Tài khoản
-                <span class="text-success">{{ loginPhoneNumber }}</span> đăng
-                nhập thành công
+                <span class="text-success">{{
+                  loginForm.loginPhoneNumber
+                }}</span>
+                đăng nhập thành công
               </h3>
               <div class="d-flex justify-center">
                 <div class="register-completed">
@@ -93,29 +97,29 @@
           </v-card>
         </v-tabs-window-item>
         <v-tabs-window-item value="tab-register">
-          <v-card v-if="registerStep == 1" flat>
+          <v-card v-if="registerForm.registerStep == 1" flat>
             <v-sheet class="mx-auto px-6" width="100%">
               <form @submit.prevent="registerSubmit">
                 <v-text-field
-                  v-model="registerFirstName"
+                  v-model="registerForm.registerFirstName"
                   :rules="[rules.required]"
                   clearable
                   label="Họ và Tên đệm"
                 ></v-text-field>
                 <v-text-field
-                  v-model="registerLastName"
+                  v-model="registerForm.registerLastName"
                   :rules="[rules.required]"
                   clearable
                   label="Tên"
                 ></v-text-field>
                 <v-text-field
-                  v-model="registerPhoneNumber"
+                  v-model="registerForm.registerPhoneNumber"
                   :rules="[rules.required]"
                   clearable
                   label="Số điện thoại"
                 ></v-text-field>
                 <v-text-field
-                  v-model="registerEmail"
+                  v-model="registerForm.registerEmail"
                   :rules="[rules.required]"
                   clearable
                   type="email"
@@ -134,7 +138,7 @@
               </form>
             </v-sheet>
           </v-card>
-          <v-card v-if="registerStep == 2" flat>
+          <v-card v-if="registerForm.registerStep == 2" flat>
             <v-btn
               class="line-md--arrow-left ml-4"
               @click="onPreviousStepRegister"
@@ -151,12 +155,15 @@
               <h3 class="text-h6 mb-4">Xác thực tài khoản</h3>
               <div class="text-body-2">
                 Chúng tôi đã gửi mã xác nhận tới số điện thoại
-                {{ registerPhoneNumber }}. Hãy kiểm tra tin nhắn và nhập OTP để
-                hoàn tất đăng ký
+                {{ registerForm.registerPhoneNumber }}. Hãy kiểm tra tin nhắn và
+                nhập OTP để hoàn tất đăng ký
               </div>
 
               <v-sheet color="surface">
-                <v-otp-input v-model="otp" variant="solo"></v-otp-input>
+                <v-otp-input
+                  v-model="registerForm.otp"
+                  variant="solo"
+                ></v-otp-input>
               </v-sheet>
 
               <v-btn
@@ -171,11 +178,11 @@
 
               <div class="text-caption">
                 Chưa nhận được OTP?
-                <a href="#" @click.prevent="otp = ''">Gửi lại</a>
+                <a href="#" @click.prevent="registerForm.otp = ''">Gửi lại</a>
               </div>
             </div>
           </v-card>
-          <v-card v-if="registerStep == 3" flat>
+          <v-card v-if="registerForm.registerStep == 3" flat>
             <div
               class="py-1 px-6 text-center mx-auto ma-4"
               max-width="400"
@@ -183,8 +190,10 @@
             >
               <h3 class="text-h6 my-0">
                 Tài khoản của
-                <span class="text-success">{{ registerLastName }}</span> đã được
-                tạo thành công
+                <span class="text-success">{{
+                  registerForm.registerLastName
+                }}</span>
+                đã được tạo thành công
               </h3>
               <p class="mb-4">Xin vui lòng đăng nhập để tiếp tục</p>
               <div class="d-flex justify-center">
@@ -248,17 +257,21 @@ export default {
         },
       ],
       // LOGIN FORM
-      loginStep: 1,
-      loginPhoneNumber: "",
-      loginPassword: "",
-      isShowPassword: false,
+      loginForm: {
+        loginStep: 1,
+        loginPhoneNumber: "",
+        loginPassword: "",
+        isShowPassword: false,
+      },
       // REGISTER FORM
-      otp: "",
-      registerStep: 1,
-      registerFirstName: "",
-      registerLastName: "",
-      registerPhoneNumber: "",
-      registerEmail: "",
+      registerForm: {
+        otp: "",
+        registerStep: 1,
+        registerFirstName: "",
+        registerLastName: "",
+        registerPhoneNumber: "",
+        registerEmail: "",
+      },
       // VALID RULES
       rules: {
         required: (value) => !!value || "Bắt buộc.",
@@ -278,10 +291,10 @@ export default {
       this.$emit("onLogin");
     },
     onNextStepLogin() {
-      this.loginStep++;
+      this.loginForm.loginStep++;
     },
     onPreviousStepLogin() {
-      this.loginStep--;
+      this.loginForm.loginStep--;
     },
     // REGISTER FORM
     registerSubmit(values) {
@@ -296,10 +309,10 @@ export default {
       loginTab.click();
     },
     onNextStepRegister() {
-      this.registerStep++;
+      this.registerForm.registerStep++;
     },
     onPreviousStepRegister() {
-      this.registerStep--;
+      this.registerForm.registerStep--;
     },
   },
 };

@@ -9,7 +9,7 @@
           <v-list-item-title>
             <RouterLink
               class="text-black text-decoration-none"
-              :to="{ path: item.page }"
+              :to="{ name: item.page }"
             >
               {{ item.title }}
             </RouterLink>
@@ -25,12 +25,12 @@ export default {
   data() {
     return {
       items: [
-        { title: "Thông tin của tôi", page: "/thong-tin-cua-toi" },
-        { title: "Gói dịch vụ của tôi", page: "/goi-dich-vu-cua-toi" },
-        { title: "Lịch sử giao dịch tiền", page: "/lich-su-giao-dich-tien" },
-        { title: "Chuyển đổi cố vấn", page: "/chuyen-doi-co-van" },
-        { title: "Phương thức thanh toán", page: "/phuong-thuc-thanh-toan" },
-        { title: "Đổi mật khẩu", page: "/doi-mat-khau" },
+        { title: "Thông tin của tôi", page: "home-route" },
+        { title: "Gói dịch vụ của tôi", page: "home-route" },
+        { title: "Lịch sử giao dịch tiền", page: "home-route" },
+        { title: "Chuyển đổi cố vấn", page: "home-route" },
+        { title: "Phương thức thanh toán", page: "home-route" },
+        { title: "Đổi mật khẩu", page: "home-route" },
       ],
     };
   },

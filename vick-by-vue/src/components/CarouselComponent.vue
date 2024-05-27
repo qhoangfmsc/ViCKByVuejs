@@ -1,41 +1,33 @@
 <template>
-  <div>
+  <div class="screen" v-if="banners">
     <!-- BIGGER THAN OR MEDIUM SCREEN -->
     <v-carousel
-      height="500"
+      height="100%"
       show-arrows="hover"
       cycle
       hide-delimiter-background
       hide-delimiters
       class="d-none d-md-block"
     >
-      <v-carousel-item v-for="(slide, i) in slides" :key="i">
-        <v-sheet :color="colors[i]" height="100%">
-          <div class="d-flex fill-height justify-center align-center">
-            <div class="text-h2">
-              {{ slide }}
-            </div>
-          </div>
+      <v-carousel-item v-for="banner in banners" :key="banner.id">
+        <v-sheet height="100%">
+          <v-img aspect-ratio="16/9" cover :src="banner.desktop" />
         </v-sheet>
       </v-carousel-item>
     </v-carousel>
 
     <!-- SMALLER THAN MEDIUM SCREEN -->
     <v-carousel
-      height="250"
+      height="100%"
       show-arrows="hover"
       cycle
       hide-delimiter-background
       hide-delimiters
       class="d-md-none"
     >
-      <v-carousel-item v-for="(slide, i) in slides" :key="i">
-        <v-sheet :color="colors[i]" height="100%">
-          <div class="d-flex fill-height justify-center align-center">
-            <div class="text-h2">
-              {{ slide }}
-            </div>
-          </div>
+      <v-carousel-item v-for="banner in banners" :key="banner.id">
+        <v-sheet height="100%">
+          <v-img aspect-ratio="16/9" cover :src="banner.mobile" />
         </v-sheet>
       </v-carousel-item>
     </v-carousel>
@@ -43,18 +35,16 @@
 </template>
 
 <script>
+import { mockupData } from "@/data/mockup";
 export default {
   data() {
     return {
-      colors: [
-        "indigo",
-        "warning",
-        "pink darken-2",
-        "red lighten-1",
-        "deep-purple accent-4",
-      ],
-      slides: ["First", "Second", "Third", "Fourth", "Fifth"],
+      banners: null,
     };
+  },
+  created() {
+    let responeBannerApi = mockupData.getBannerApi();
+    this.banners = responeBannerApi;
   },
 };
 </script>

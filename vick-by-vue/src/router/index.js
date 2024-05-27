@@ -1,11 +1,28 @@
 import { createRouter, createWebHistory } from "vue-router";
-import IndexView from "../views/IndexView.vue";
+import HomePage from "@/views/HomePage.vue";
+import LandingPage from "@/views/LandingPage.vue";
+import MainServicePage from "@/views/MainServicePage.vue";
+import NotFoundPage from "@/views/NotFoundPage.vue";
 
 const routes = [
   {
     path: "/",
-    name: "index",
-    component: IndexView,
+    name: "home-route",
+    component: HomePage,
+  },
+  {
+    path: "/thong-tin",
+    name: "landing-route",
+    component: LandingPage,
+  },
+  {
+    path: "/dich-vu",
+    name: "main-service-route",
+    component: MainServicePage,
+  },
+  {
+    path: "/:pathMatch(.*)*",
+    component: NotFoundPage,
   },
 ];
 
